@@ -17,4 +17,4 @@ We are making use of geographic information, which has two main ways of thinking
 
 ###### Data Sets
 * Makes use of the following data sets:
-  * [Microsoft's Canadian Building Footprints data](https://github.com/Microsoft/CanadianBuildingFootprints) (Open Database License, info [here](https://opendatacommons.org/licenses/odbl/1.0/))
+  * [Planet data](https://www.planet.com)
