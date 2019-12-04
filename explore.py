@@ -49,14 +49,6 @@ class PlanetAPI:
             df['id'],
             df['_links'].apply(pd.Series).rename({'_self':'url'}, axis='columns')
         ], axis='columns').set_index('id')
-
-        # # Add the url for stats
-        # df = df.append(
-        #     pd.DataFrame({
-        #         'id': 'stats',
-        #         'url': 'https://api.planet.com/data/v1/stats'
-        #     }, index=[0]).set_index('id')
-        # )
         self.urls = df.sort_index()
 
     def set_geo_json_geometry(self, geometry):
