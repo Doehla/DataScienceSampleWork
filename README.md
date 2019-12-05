@@ -14,3 +14,11 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
 * Confidence intervals enableing:
   * Hypothesis test
   * A/B test
+
+**Files:**
+* Stats/inferential_statistics_1a-Q6.25.ipynb
+ * z and t tests
+* Stats/inferential_statistics_1b-Q6.25.ipynb
+ * z and t tests
+* Stats/inferential_statistics_2-Q.ipynb
+ * bootstrapping
