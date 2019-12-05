@@ -1,9 +1,9 @@
 # DataScienceSampleWork
 Collection of various data science projects for demonstrations.
 
-#### Statistics
-##### Inference
-###### Frequentism exercises
+### Statistics
+#### Inference
+##### Frequentism exercises
 Done as part of my work for SpringBoard's Data Science Career Track program.
 * Examination of z statistic
 * Examination of t statistic
@@ -15,7 +15,7 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
   * Hypothesis test
   * A/B test
 
-**Files:**
+###### Files:
 * Stats/inferential_statistics_1a-Q6.25.ipynb
  * z and t tests
 * Stats/inferential_statistics_1b-Q6.25.ipynb
