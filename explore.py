@@ -6,7 +6,7 @@ import pandas as pd
 class PlanetAPI:
     '''Interface object with planet.com'''
     # Provide some default values for these properties
-    satellite_id = 'REOrthoTile'
+    satellite_id = ['REOrthoTile']
     begin_date   = "2016-07-01T00:00:00.000Z"
     end_date     = "2016-08-01T00:00:00.000Z"
     geo_json_geometry = {
@@ -54,6 +54,30 @@ class PlanetAPI:
     def set_geo_json_geometry(self, geometry):
         self.geo_json_geometry = geometry
 
+    def set_geo_area_of_interest(self, geo_point_1, geo_point_2):
+        lat1, long1 = geo_point_1
+        lat2, long2 = geo_point_2
+        json_geometry = {
+            "type": "Polygon",
+            "coordinates": [[[
+                min([lat1,  lat2]),
+                min([long1, long2])
+            ],[
+                max([lat1,  lat2]),
+                min([long1, long2])
+            ],[
+                max([lat1,  lat2]),
+                max([long1, long2])
+            ],[
+                min([lat1,  lat2]),
+                max([long1, long2])
+            ],[
+                min([lat1,  lat2]),
+                min([long1, long2])
+            ]]]
+        }
+        self.set_geo_json_geometry(json_geometry)
+
     def fetch_query_parameters(self):
         '''Package up the query paramaters for proper formatting.
         To change the geometry space considered: update geo_json_geometry
@@ -89,7 +113,7 @@ class PlanetAPI:
             auth=(self.API_Key, ''),
             json={
                 "interval": "day",
-                "item_types": [self.satellite_id],
+                "item_types": self.satellite_id,
                 "filter": self.fetch_query_parameters()
             }
         )
@@ -101,7 +125,7 @@ class PlanetAPI:
             'https://api.planet.com/data/v1/quick-search',
             auth=(self.API_Key, ''),
             json={
-                "item_types": [self.satellite_id],
+                "item_types": self.satellite_id,
                 "filter": self.fetch_query_parameters()
             }
         )
