@@ -27,3 +27,11 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
 
 ###### Files:
 * Stats/inferential_statistics_2-Q.ipynb
+
+##### Bayesian Inference exercises
+###### Overview:
+Done as part of my work for SpringBoard's Data Science Career Track program.
+* Use of Bayesian inference, making use of PyMC3
+
+###### Files:
+* Stats/inferential_statistics_3-Q.ipynb
