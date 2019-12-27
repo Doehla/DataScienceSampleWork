@@ -12,3 +12,7 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
 Done as part of my work for SpringBoard's Data Science Career Track program.
 * Utilize 3 tables in SpringBoard's mySQL server
 * Answer a number of questions about the data
+
+##### Requests data exercise
+Done as part of my work for SpringBoard's Data Science Career Track program.
+* Fetch data from [quandl](www.quandl.com) relating to a stock
