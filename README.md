@@ -28,3 +28,13 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
 
 ###### Files
 * Data_Wrangle/api_data_wrangling_mini_project.ipynb
+
+#### Machine Learning
+##### Linear Regression
+###### Overview:
+Done as part of my work for SpringBoard's Data Science Career Track program.
+* Build linear regression models for the given data.
+* Makes use of Scikit-Learn and StatsModels
+
+###### Files
+* Machine_Learning/linear_regression/Mini_Project_Linear_Regression.ipynb
