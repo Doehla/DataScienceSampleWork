@@ -39,3 +39,10 @@ Done as part of my work for SpringBoard's Data Science Career Track program.
 ###### Files
 * Machine_Learning/linear_regression/Mini_Project_Linear_Regression.ipynb
 * Machine_Learning/logistic_regression/Mini_Project_Logistic_Regression.ipynb
+
+##### Naive Bayes
+###### Overview:
+Done as part of my work for SpringBoard's Data Science Career Track program.
+
+###### Files
+* Machine_Learning/naive_bayes/Mini_Project_Naive_Bayes.ipynb
