@@ -55,13 +55,13 @@ At each of these branches, if there exists a equal weighting of going down each 
 ### Markov Property Note
 This is important to note here. This states that the probability of the next state is independent of all previous states -- it just depends on the current state. Expressed mathematically:
 
-$$\mathbb{P}[S_{t+1}|S_t] = \mathbb{P}[S_{t+1}|S_1, ... S_t]$$
+$$\mathbb{P}[S_{t+1}|S_t] = \mathbb{P}[S_{t+1}|S_1, \dots S_t]$$
 
 Essentially this means that if we have progressed on the above graphic from state S0, where the game starts, to state S5 and then S52, moving forward we don't need to consider S5 anymore we just need note we are in state S52.
 
 ## Markov Reward Process
 Here we introduce two concepts:
-* gamma, g, the discount factor
+* gamma, the discount factor
 * R, the reward function
 
 $$\gamma$$
@@ -80,4 +80,41 @@ If we have a discount factor between 0 and 1 then possible rewards that are in t
 #### Application
 In our case we want to build an engine with some form of strategy rather than something only considering the next move, but not to count on something so far out in the future as to sacrifice the immediate positions available to the turn. As such, we will want a discount factor between 0 and 1, but this will likely need to be a hyperparameter we tune for performance.
 
+### Reward Function
+This defines the positive or negative impact of each action taken.
+
+This can be further expanded to consider the return for the subsequent actions as well. In this case, we have the reward function result for the next action summed over the reward function of subsequent steps multiplied by increasing multiples of the discount factor.
+
+This can be expressed as (reference Bellman Equation):
+$$
+\begin{pmatrix}
+v(1) \\ \vdots \\ v(n)
+\end{pmatrix} = \begin{pmatrix}
+R(1) \\ \vdots \\ R(n)
+\end{pmatrix} + \gamma \begin{pmatrix}
+P_{11} & \dots & P_{n1} \\
+\vdots && \vdots \\
+P_{1n} & \dots & P_{nn}
+\end{pmatrix} \begin{pmatrix}
+v(1) \\ \vdots \\ v(n)
+\end{pmatrix}
+$$
+This is something where if these terms are directly able to be defined is solvable, but O(n3) as this involves matrix inversion. As such, typically not practical for complex problems.
+
+Iterative approaches to solve:
+* Dynamic programming
+* Monte-Carlo evaluation
+* Temporal-Difference learning
+
 ## Markov Decision Process
+This takes the Markov Reward Process and incorporates an action space as well -- allowing for actions to be taken, and the basis for the machine learning part.
+
+The question then becomes what decisions should be made to maximize the reward value down the path, considering the reward function and the discount factor.
+This does not typically have a closed form solution and is solved differently.
+
+Some options:
+* Iterative solution
+  * Value Iteration
+  * Polity Iteration
+  * Q-learning
+  * Sarsa
