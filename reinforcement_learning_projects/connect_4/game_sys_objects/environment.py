@@ -17,6 +17,11 @@ class Environment:
 
 
     def add_player(self, name, model, key=None):
+        """Add player to the game.
+        Game expects 2 players which will be assigned to keys 1 and -1
+        Expect a model to be provided to return the moves of the player through
+            calls placed to get_move()
+        """
         self.logger.debug('Adding player to environment class')
         if key is not None:
             self.agents[key] = (name, model)
@@ -29,6 +34,9 @@ class Environment:
 
 
     def __repr__(self):
+        """Provide a representation of the board. Will attempt to use a pretty representation.
+        If it cannot, will default to displaying the numbers backing the grid.
+        """
         ret_str = ''
         try:
             ret_str = self.print_special(1)
@@ -43,6 +51,8 @@ class Environment:
 
 
     def print_special(self, agent_num):
+        """Provide a pretty printed representation of the board.
+        """
         ret_str = ''
         for row in self.grid[::-1]:
             ret_str += '|'
@@ -59,6 +69,8 @@ class Environment:
 
 
     def accept_move(self, slot, agent):
+        """Update game state with the move provided.
+        """
         try:
             i = int(next(idx for idx, x in enumerate(self.grid[:,slot]) if x == 0))
             self.grid[i, slot] = agent
@@ -71,6 +83,8 @@ class Environment:
 
 
     def _fetch_sets(self):
+        """Provide all possible avenues for adjacency inspection.
+        """
         for i in range(self.col_cnt):
             yield self.grid[:,i]
         for i in range(self.row_cnt):
@@ -82,6 +96,8 @@ class Environment:
 
 
     def determine_if_winner(self):
+        """Examine adjacency to determine if wining criteria has been meet.
+        """
         self.logger.debug('Checking win condition criteria')
         found_winner = False
         for test_set in self._fetch_sets():
@@ -113,6 +129,11 @@ class Environment:
         return found_winner
 
     def run_game(self):
+        """Process game.
+        Termination conditions:
+            - winner found
+            - maximum number of allowed turns has been meet
+        """
         self.logger.info('Starting game')
 
         # Ensure we have a player for -1 and 1:

@@ -3,6 +3,9 @@ import numpy as np
 
 
 class PlayerTemplate:
+    """Base class for player unit for the game.
+    Provide logging, some basic move validation, and a hook option for picking moves.
+    """
     output_range = 7
     max_itter = 10
 
@@ -37,5 +40,13 @@ class PlayerTemplate:
 
 
 class RandomPlayer(PlayerTemplate):
+    """Random Player
+    Pick move slot at random.
+    """
     def pick_move(self, env):
         return np.random.randint(0, self.output_range)
+
+
+class StrategyPlayer(PlayerTemplate):
+    def pick_move(self, env):
+        pass
