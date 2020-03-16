@@ -155,7 +155,7 @@ class Environment:
 
                 # get the agent and the move they make:
                 agent = self.agents.get(player, None)
-                token_slot = agent.get_move(self.grid * player)  # TODO: if wanting to generalize to have move than 2 players, how do we effectively pass in the appropriate state?
+                token_slot = agent.act(self.grid * player)  # TODO: if wanting to generalize to have move than 2 players, how do we effectively pass in the appropriate state?
 
                 # Update game state with the move:
                 self.accept_move(token_slot, player_state)

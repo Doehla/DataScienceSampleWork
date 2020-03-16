@@ -18,11 +18,14 @@ if __name__ == '__main__':
     # Class initialization:
     game = game_sys_objects.environment.Environment()
     rando = game_sys_objects.players.RandomPlayer('rando')
-    dumbo = game_sys_objects.players.RandomPlayer('dumbo')
+    # dumbo = game_sys_objects.players.RandomPlayer('dumbo')
+    human = game_sys_objects.players.HumanPlayer('human')
+    human.set_board_print_function(game.print_special)
 
     # Game Set Up:
     game.add_player(rando)
-    game.add_player(dumbo)
+    # game.add_player(dumbo)
+    game.add_player(human)
 
     # Execute the game:
     game.run_game()
