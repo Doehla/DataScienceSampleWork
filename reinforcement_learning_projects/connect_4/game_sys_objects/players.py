@@ -10,8 +10,9 @@ class PlayerTemplate:
     max_itter = 10
 
 
-    def __init__(self):
+    def __init__(self, name):
         self.logger = logging.getLogger('game.player')
+        self.name = name
 
 
     def get_move(self, env) -> int:

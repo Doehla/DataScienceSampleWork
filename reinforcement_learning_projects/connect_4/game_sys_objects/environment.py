@@ -16,21 +16,21 @@ class Environment:
         self.grid = np.zeros((self.row_cnt, self.col_cnt))
 
 
-    def add_player(self, name, model, key=None):
+    def add_player(self, model, key=None):
         """Add player to the game.
         Game expects 2 players which will be assigned to keys 1 and -1
         Expect a model to be provided to return the moves of the player through
             calls placed to get_move()
         """
         self.logger.debug('Adding player to environment class')
-        if key is not None:
-            self.agents[key] = (name, model)
-        else:
+        if key is None:
             if 1 in self.agents.keys():
-                self.agents[-1] = (name, model)
+                key = -1
             else:
-                self.agents[1] = (name, model)
-        self.logger.info('Set up player: {name}'.format(name=name))
+                key = 1
+
+        self.agents[key] = model
+        self.logger.info('Added player {num} to game'.format(num=key))
 
 
     def __repr__(self):
@@ -114,12 +114,15 @@ class Environment:
                 cnt = int(sum(1 for _ in g))
                 if cnt >= 4:
                     try:
-                        name, model = self.agents.get(k, None)
+                        model = self.agents.get(k, None)
                     except Exception as e:
                         self.logger.error('Failed examining winning condition for k = {}'.format(k))
                         raise Exception(e)
 
-                    self.logger.info('Found wining condition met for: {}'.format(name))
+                    try:
+                        self.logger.info('Found wining condition met for: {}'.format(model.name))
+                    except:
+                        self.logger.info('Fount wining condition met for k = {}'.format(k))
                     found_winner = True
                     break
 
@@ -136,10 +139,7 @@ class Environment:
         """
         self.logger.info('Starting game')
 
-        # Ensure we have a player for -1 and 1:
-        agent_neg = self.agents.get(-1, None)
-        agent_pos = self.agents.get(1, None)
-        if agent_neg is None or agent_pos is None:
+        if len(self.agents.keys()) != 2:
             raise Exception('Expecting two players for this game!')
 
         # set up loop variables
@@ -149,46 +149,28 @@ class Environment:
 
         # Run the game:
         while not win_condition:
-            turn_counter += 1
-            self.logger.debug('Executing turn: {}'.format(turn_counter))
+            for player in self.agents.keys():
+                turn_counter += 1
+                self.logger.debug('Executing turn: {}'.format(turn_counter))
 
-            # get the agent and the move they make:
-            name, agent = self.agents.get(player_state, None)
-            token_slot = agent.get_move(self.grid*player_state)
+                # get the agent and the move they make:
+                agent = self.agents.get(player, None)
+                token_slot = agent.get_move(self.grid * player)  # TODO: if wanting to generalize to have move than 2 players, how do we effectively pass in the appropriate state?
 
-            # Update game state with the move:
-            self.accept_move(token_slot, player_state)
-            self.logger.debug('Turn made by agent name: {}'.format(name))
+                # Update game state with the move:
+                self.accept_move(token_slot, player_state)
+                try:
+                    self.logger.debug('Turn made by agent name: {}'.format(agent.name))
+                except:
+                    self.logger.debug('Turn made by agent player number: {}'.format(player))
 
-            # Check if they won the game:
-            win_condition = self.determine_if_winner()
+                # Check if they won the game:
+                win_condition = self.determine_if_winner()
 
-            # If the game has exceeded the max number of turns, end it.
-            if turn_counter > self.max_turns:
-                self.logger.debug('Max turns limit reached. Terminating in stalemate.')
-                break
+                # If the game has exceeded the max number of turns, end it.
+                if turn_counter > self.max_turns:
+                    self.logger.debug('Max turns limit reached. Terminating in stalemate.')
+                    break
 
-            # Change player state to have the other player take a turn:
-            player_state = player_state * -1
-
-
-
-
-if __name__ == '__main__':
-    game = Environment()
-    game.add_player('rando', 'x')
-    game.add_player('dumbo', 'hi')
-
-    game.accept_move(3, 1)
-    game.accept_move(3, 1)
-    game.accept_move(3, 1)
-    game.accept_move(3, 1)
-    game.accept_move(2,-1)
-    game.accept_move(2,-1)
-    game.accept_move(2,-1)
-    game.accept_move(2, 1)
-    game.accept_move(0,-1)
-    game.accept_move(1,-1)
-    game.accept_move(1, 1)
-    print(game)
-    game.determine_if_winner()
+                # Change player state to have the other player take a turn:
+                player_state = player_state * -1

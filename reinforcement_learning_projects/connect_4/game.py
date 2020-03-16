@@ -17,11 +17,12 @@ root.addHandler(handler)
 if __name__ == '__main__':
     # Class initialization:
     game = game_sys_objects.environment.Environment()
-    rando1 = game_sys_objects.players.RandomPlayer()
+    rando = game_sys_objects.players.RandomPlayer('rando')
+    dumbo = game_sys_objects.players.RandomPlayer('dumbo')
 
     # Game Set Up:
-    game.add_player('rando', rando1)
-    game.add_player('dumbo', rando1)
+    game.add_player(rando)
+    game.add_player(dumbo)
 
     # Execute the game:
     game.run_game()
