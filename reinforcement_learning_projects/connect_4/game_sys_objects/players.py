@@ -71,5 +71,10 @@ class HumanPlayer(PlayerTemplate):
 
 
 class StrategyPlayer(PlayerTemplate):
+    def __init__(self, name, model=None):
+        PlayerTemplate.__init__(self, name)
+        self.model = model
+
+
     def pick_move(self, env):
-        pass
+        return self.model.get_move(env)
