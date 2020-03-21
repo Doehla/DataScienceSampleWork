@@ -31,9 +31,10 @@ if __name__ == '__main__':
     # human.set_board_print_function(game.print_special)
     # game.add_player(human)
 
+    cnn = game_sys_objects.models.CNN_Model()
     learner = game_sys_objects.players.StrategyPlayer(
         'learner',
-        model=game_sys_objects.models.CNN_Model()
+        model=cnn
     )
     game.add_player(learner)
 
@@ -42,3 +43,4 @@ if __name__ == '__main__':
 
     # Execute the game:
     game.run_game()
+    cnn.show_history()
