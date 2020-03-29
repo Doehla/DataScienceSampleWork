@@ -9,6 +9,23 @@ As a result, with proper logging we have already clean, wrangled, and accurate d
 
 Analysis will be based upon the ability to train the agent to be able to beat the opponent. A successful victory on a number of consecutive games will be used to determine success over the opponent.
 
+## Model to Use
+This is a reinforcement learning problem and as such, we need to determine one of these models to use. After consideration a deep Q network has been determined to be a viable option.
+
+These 2 articles (
+  [here](https://towardsdatascience.com/simple-reinforcement-learning-q-learning-fcddc4b6fe56)
+  and
+  [here](https://towardsdatascience.com/introduction-to-various-reinforcement-learning-algorithms-i-q-learning-sarsa-dqn-ddpg-72a5e0cb6287)
+) were found to be helpful in explaining the concepts of the model.
+
+This was chosen as we wanted to be able to abstract away the policy and minimize the dependency on the environment for our given model. Using a Q-network allows for us to focus on a value based model and not need to determine the policy as well with the deep neural network part of this version allows us to not need to train everything for all possible states and thus abstract away some of this to incorporate into the neural network. As such, this seems like a solid choice.
+
+## Training of Model
+As we are training a neural network, this ultimately comes down to defining an error function and doing back propagation through the network to tune the parameters to be ideal for the given network design. Additionally, we need to define a reward function and a few other parameters -- learning rate and discount factor.
+
+As this game is about forming connections between tokens, we are defining a reward function that heavily incentives forming larger connections while penalizing longer connections of the opponent.
+
+
 # About the game
 You are trying to connect 4 of your tokens in a line on a 6x7 grid by dropping tokens down one of the columns. You compete ad doing this against another player. First player to succeed wins the game.
 
