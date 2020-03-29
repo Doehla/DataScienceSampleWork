@@ -1,5 +1,16 @@
+# Overview
+## Problem Statement
+Design a program that is able to learn how to play the game of Connect 4 without directly programming the actions/strategy of the agent.
+
+## Data
+The agent will play games to generate data and learn from these experiences. At first this will be against a random opponent (a random number generator) and then graduate to playing against itself. These games will be the source of the data.
+
+As a result, with proper logging we have already clean, wrangled, and accurate data as we are generating this ourselves as part of the simulations.
+
+Analysis will be based upon the ability to train the agent to be able to beat the opponent. A successful victory on a number of consecutive games will be used to determine success over the opponent.
+
 # About the game
-You are trying to connect 4 of your tokens in a line on a 7x7 grid by dropping tokens down one of the columns. You compete ad doing this against another player. First player to succeed wins the game.
+You are trying to connect 4 of your tokens in a line on a 6x7 grid by dropping tokens down one of the columns. You compete ad doing this against another player. First player to succeed wins the game.
 
 # About Reinforcement Learning Concepts as applied to the game
 ## What is the Environment?
@@ -118,3 +129,6 @@ Some options:
   * Polity Iteration
   * Q-learning
   * Sarsa
+
+
+# Substructure of the game
