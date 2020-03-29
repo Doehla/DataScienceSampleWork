@@ -61,6 +61,9 @@ class StrategyModel:
 
 
     def get_move(self, env):
+        self.determine_action_space(env)
+
+
         use_env = self._reshape_for_model_input(env)
         prob_vector = self.model.predict(use_env)
         action = self._parse_move_probability(prob_vector)
@@ -71,6 +74,17 @@ class StrategyModel:
         ))
 
         return action
+
+
+    def determine_action_space(self, env):
+        valid_moves = []
+        for i in range(self.col_cnt):
+            valid_move = next((idx for idx, x in enumerate(env[:,i]) if x == 0), None)
+            if valid_move is not None:
+                valid_moves.append(i)
+        self.logger.debug('valid actions to take: {}'.format(', '.join([str(move) for move in valid_moves])))
+        return valid_moves
+
 
 
 class CNN_Model(StrategyModel):
