@@ -105,6 +105,6 @@ if __name__ == '__main__':
     f_output = os.path.join(f_root, 'data', 'packaged', 'training_data.csv')
 
     df = construct_file_df(f_data_root, include_labels=True)
-    # df.to_csv(f_output, index=False)
+    df.to_csv(f_output, index=False)
 
     print(df.info())
