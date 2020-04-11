@@ -99,12 +99,19 @@ def construct_file_df(dir_path, include_labels=False):
 
 
 if __name__ == '__main__':
-    f_root = os.path.dirname(os.path.abspath(__file__))
-    f_data_folder = os.path.join('data', 'seg_train')
-    f_data_root = os.path.join(f_root, f_data_folder)
-    f_output = os.path.join(f_root, 'data', 'packaged', 'training_data.csv')
+    loop_vars = [
+        ('seg_train', 'training_data.csv'),
+        ('seg_test', 'test_data.csv'),
+        ('seg_pred', 'predict_data.csv')
+    ]
 
-    df = construct_file_df(f_data_root, include_labels=True)
-    df.to_csv(f_output, index=False)
+    for folder, file in loop_vars:
+        f_root = os.path.dirname(os.path.abspath(__file__))
+        f_data_folder = os.path.join('data', folder)
+        f_data_root = os.path.join(f_root, f_data_folder)
+        f_output = os.path.join(f_root, 'data', 'packaged', file)
 
-    print(df.info())
+        df = construct_file_df(f_data_root, include_labels=True)
+        df.to_csv(f_output, index=False)
+
+        print(df.info())
