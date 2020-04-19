@@ -1,9 +1,13 @@
 import os
+import sys
 import PIL
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+# set up options
+np.set_printoptions(threshold=sys.maxsize, linewidth=np.inf, precision=3)
 
 
 def fetch_contents(dir_path):
@@ -66,20 +70,33 @@ def transform_image_data(img_data):
                     img_data = append_average(i)
 
     # Image data has values from 0 to 255. Convert these to [0,1]
-    # /255
+    img_data = img_data/255
 
     return img_data
 
 
-def construct_file_df(dir_path, include_labels=False):
+def construct_file_df(dir_path, include_labels=False, output_file=None):
     """Construct a dataframe with file_path
         and optionally the label of the file.
     WARNING: This does not consider memory limitations and will attempt to return everything.
     """
+    if (output_file is not None) and os.path.isfile(output_file):
+        os.remove(output_file)
+        print('removed old file')
+
+    first_print = True
     data = []
-    cols = ['file_path', 'file_img']
+    cols = ['file_path']
     if include_labels:
         cols.append('file_label')
+    cols.append('file_img')
+
+    def write_to_file(use_data, p_head):
+        df = pd.DataFrame(use_data, columns=cols)
+        df.to_csv(f_output, index=False, mode='a', header=p_head)
+        with open(f_output, 'r') as f:
+            cnt = sum(1 for _ in f)
+        print('Wrote batch {} -> {} ({})'.format(df.shape, cnt, f_output))
 
     for i, file in enumerate(fetch_contents(dir_path)):
         data_elem = dict()
@@ -92,26 +109,40 @@ def construct_file_df(dir_path, include_labels=False):
 
         img = mpimg.imread(file)
         img = transform_image_data(img)
+        data_elem['file_img'] = img.ravel()
         data.append(data_elem)
 
-    df = pd.DataFrame(data, columns=cols)
+        if (output_file is not None) and (i % 50 == 0):
+            write_to_file(data, first_print)
+            data = []
+            first_print = False
+
+    if (output_file is not None):
+        write_to_file(data, first_print)
+        df = None
+    else:
+        df = pd.DataFrame(data, columns=cols)
+
     return df
 
 
 if __name__ == '__main__':
     loop_vars = [
-        ('seg_train', 'training_data.csv'),
-        ('seg_test', 'test_data.csv'),
-        ('seg_pred', 'predict_data.csv')
+        ('seg_train', 'training_data.csv', True),
+        ('seg_test', 'test_data.csv', True),
+        ('seg_pred', 'predict_data.csv', False)
     ]
 
-    for folder, file in loop_vars:
+    for folder, file, labeled in loop_vars:
+        print('Processing: {}'.format(file))
         f_root = os.path.dirname(os.path.abspath(__file__))
         f_data_folder = os.path.join('data', folder)
         f_data_root = os.path.join(f_root, f_data_folder)
         f_output = os.path.join(f_root, 'data', 'packaged', file)
 
-        df = construct_file_df(f_data_root, include_labels=True)
-        df.to_csv(f_output, index=False)
-
-        print(df.info())
+        df = construct_file_df(
+            f_data_root,
+            include_labels=labeled,
+            output_file=f_output
+        )
+    print('Done!')
